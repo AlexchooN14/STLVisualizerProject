@@ -1,0 +1,20 @@
+#ifndef VERTEX_H
+#define VERTEX_H
+
+#include <glm/glm.hpp>
+
+
+class Vertex {
+private:
+
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec3 color;
+	glm::vec2 texUV;
+
+public:
+	Vertex(glm::vec3 position, glm::vec3 normal, glm::vec3 color, glm::vec2 texUV);
+	Vertex(float vertex[3], float normalVector[3]);
+};
+
+#endif // !VERTEX_H
