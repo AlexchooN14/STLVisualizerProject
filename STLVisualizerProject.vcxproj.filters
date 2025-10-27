@@ -76,5 +76,11 @@
     <None Include="default.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="light.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="light.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
