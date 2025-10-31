@@ -117,8 +117,8 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		input.Update(window, drawable);
-		std::cout << "Rotation Angle: " << drawable.rotationAngle << std::endl;
-		std::cout << "rotationVelocity: " << input.rotationVelocity << std::endl;
+		/*std::cout << "Rotation Angle: " << drawable.rotationAngle << std::endl;
+		std::cout << "rotationVelocity: " << input.rotationVelocity << std::endl;*/
 		drawable.Draw(shaderProgram, camera);
 
 

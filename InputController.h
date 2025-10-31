@@ -7,7 +7,7 @@
 
 class InputController {
 public:
-    float rotationVelocity = 0.0f;
+    glm::vec2 rotationVelocity = glm::vec2(0.0f);
     glm::vec2 lastMousePosition;
     bool rotating = false;
 

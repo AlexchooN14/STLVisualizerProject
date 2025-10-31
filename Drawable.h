@@ -12,12 +12,12 @@ public:
 	VBO VBO;
 	EBO EBO;
 
-	float rotationAngle;
+	glm::mat4 rotationMatrix;
 
 	Drawable(Mesh& mesh);
 
 	void Draw(Shader& shader, Camera& camera);
-	void ApplyRotation(float angleDelta);
+	void ApplyRotation(float angleDeltaX, float angleDeltaY);
 };
 
 #endif // !DRAWABLE_H
