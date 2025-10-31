@@ -90,6 +90,12 @@ int main()
 	glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "model"), 1, GL_FALSE, glm::value_ptr(pyramidModel));
 	glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 	glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPosition.x, lightPosition.y, lightPosition.z);*/
+
+	glm::vec3 originPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, originPosition);
+	glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
 	shaderProgram.Activate();
 
 	glEnable(GL_DEPTH_TEST);
@@ -97,6 +103,7 @@ int main()
 	Camera camera(glm::vec3(0.0f, 0.0f, 2.0f), SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
@@ -106,8 +113,23 @@ int main()
 		// Clean the back buffer and assign the new color to it
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		camera.Inputs(window);
-		camera.updateMatrix(45.0f, 0.1f, 100.0f);
+		/*camera.Inputs(window);
+		camera.updateMatrix(45.0f, 0.1f, 100.0f);*/
+
+		/*if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			double mouseX, mouseY;
+			glfwGetCursorPos(window, &mouseX, &mouseY);
+
+			float rotX = sensitivity * (float)(mouseY - (SCREEN_HEIGHT / 2)) / SCREEN_HEIGHT;
+			float rotY = sensitivity * (float)(mouseX - (SCREEN_WIDTH / 2)) / SCREEN_WIDTH;
+
+			
+			glfwSetCursorPos(window, (width / 2), (height / 2));
+		}
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE) {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}*/
 
 		objectMesh.Draw(shaderProgram, camera);
 		//lightMesh.Draw(lightShader, camera);

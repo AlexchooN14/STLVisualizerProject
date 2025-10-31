@@ -29,14 +29,30 @@ Mesh::Mesh(std::vector<Vertex>& vertices) : VBO(vertices), EBO() {
 	// Unbind all to prevent accidentally modifying them
 	VAO.Unbind();
 	VBO.Unbind();
+
+	for (const auto& v : vertices) {
+		this->centroid += v.position;
+	}
+	this->centroid /= static_cast<float>(vertices.size());
 }
 
 void Mesh::Draw(Shader& shader, Camera& camera) {
 	shader.Activate();
 	VAO.Bind();
 
+	float angle = glfwGetTime(); // radians
+
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::scale(model, glm::vec3(0.01f));
+
+	// Translate to origin (center the object)
+	model = glm::translate(model, -this->centroid);
+
+	// Rotate around Y-axis
+	model = glm::rotate(model, angle, glm::vec3(0.0f, 1.0f, 0.0f));
+
+	// Translate back to original position
+	model = glm::translate(model, this->centroid);
+
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
 	glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.position.x, camera.position.y, camera.position.z);

@@ -10,7 +10,7 @@ void Camera::updateMatrix(float FOVdeg, float nearPlane, float farPlane) {
 	glm::mat4 projection = glm::mat4(1.0f);
 
 	view = glm::lookAt(this->position, this->position + this->orientation, this->up);
-	projection = glm::perspective(glm::radians(FOVdeg), (float)(this->width / this->height), nearPlane, farPlane);
+	projection = glm::perspective(glm::radians(FOVdeg), (float)this->width / (float)this->height, nearPlane, farPlane);
 
 	this->cameraMatrix = projection * view;
 }
@@ -46,24 +46,24 @@ void Camera::Inputs(GLFWwindow* window) {
 		this->speed = 0.1f;
 	}
 
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-		double mouseX, mouseY;
-		glfwGetCursorPos(window, &mouseX, &mouseY);
+	//if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+	//	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	//	double mouseX, mouseY;
+	//	glfwGetCursorPos(window, &mouseX, &mouseY);
 
-		float rotX = this->sensitivity * (float)(mouseY - (height / 2)) / height;
-		float rotY = this->sensitivity * (float)(mouseX - (width / 2)) / width;
+	//	float rotX = this->sensitivity * (float)(mouseY - (height / 2)) / height;
+	//	float rotY = this->sensitivity * (float)(mouseX - (width / 2)) / width;
 
-		glm::vec3 newOrientation = glm::rotate(this->orientation, glm::radians(-rotX), glm::normalize(glm::cross(this->orientation, this->up)));
-		newOrientation = glm::rotate(this->orientation, glm::radians(-rotY), this->up);
-		// Decides whether or not the next vertical Orientation is legal or not
-		/*if (abs(glm::angle(newOrientation, this->up) - glm::radians(90.0f)) <= glm::radians(85.0f))
-		{*/
-			this->orientation = newOrientation;
-		//}
-		glfwSetCursorPos(window, (width / 2), (height / 2));
-	}
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE) {
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	}
+	//	glm::vec3 newOrientation = glm::rotate(this->orientation, glm::radians(-rotX), glm::normalize(glm::cross(this->orientation, this->up)));
+	//	newOrientation = glm::rotate(this->orientation, glm::radians(-rotY), this->up);
+	//	// Decides whether or not the next vertical Orientation is legal or not
+	//	/*if (abs(glm::angle(newOrientation, this->up) - glm::radians(90.0f)) <= glm::radians(85.0f))
+	//	{*/
+	//		this->orientation = newOrientation;
+	//	//}
+	//	glfwSetCursorPos(window, (width / 2), (height / 2));
+	//}
+	//if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE) {
+	//	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	//}
 }

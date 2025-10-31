@@ -14,7 +14,8 @@ class Mesh
 public:
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
-	
+	glm::vec3 centroid = glm::vec3(0.0f);
+
 	VAO VAO;
 	VBO VBO;
 	EBO EBO;

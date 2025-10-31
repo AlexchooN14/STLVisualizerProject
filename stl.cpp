@@ -5,6 +5,8 @@
 #include <string>
 #include <iomanip>
 #include <ios>
+#include <glm/glm.hpp>
+
 
 void printVec3(std::ostream& stream, const std::string name, const float vector[3]) {
 	static const char axis[] = { 'x', 'y', 'z' };
@@ -77,10 +79,42 @@ void StlFile::readStlFileContents(std::string filename) {
 std::vector<Vertex> StlFile::verticesConvertVertexArray() {
 	std::vector<Vertex> vertices;
 
+	// Step 1: Compute bounding box
+	glm::vec3 minBounds(FLT_MAX);
+	glm::vec3 maxBounds(-FLT_MAX);
+
+	for (const StlFileContent& triangle : this->contents) {
+		for (int i = 0; i < 3; ++i) {
+			glm::vec3 v1(triangle.vertex1[0], triangle.vertex1[1], triangle.vertex1[2]);
+			glm::vec3 v2(triangle.vertex2[0], triangle.vertex2[1], triangle.vertex2[2]);
+			glm::vec3 v3(triangle.vertex3[0], triangle.vertex3[1], triangle.vertex3[2]);
+
+			minBounds = glm::min(minBounds, v1);
+			minBounds = glm::min(minBounds, v2);
+			minBounds = glm::min(minBounds, v3);
+
+			maxBounds = glm::max(maxBounds, v1);
+			maxBounds = glm::max(maxBounds, v2);
+			maxBounds = glm::max(maxBounds, v3);
+		}
+	}
+
+	// Step 2: Compute center and scale
+	glm::vec3 center = (minBounds + maxBounds) * 0.5f;
+	glm::vec3 size = maxBounds - minBounds;
+	float maxDimension = std::max({ size.x, size.y, size.z });
+
+	// Step 3: Normalize and convert to Vertex
 	for (StlFileContent& triangle : this->contents) {
-		vertices.push_back(Vertex(triangle.vertex1, triangle.normalVector));
-		vertices.push_back(Vertex(triangle.vertex2, triangle.normalVector));
-		vertices.push_back(Vertex(triangle.vertex3, triangle.normalVector));
+		glm::vec3 normal(triangle.normalVector[0], triangle.normalVector[1], triangle.normalVector[2]);
+
+		glm::vec3 v1 = (glm::vec3(triangle.vertex1[0], triangle.vertex1[1], triangle.vertex1[2]) - center) / maxDimension;
+		glm::vec3 v2 = (glm::vec3(triangle.vertex2[0], triangle.vertex2[1], triangle.vertex2[2]) - center) / maxDimension;
+		glm::vec3 v3 = (glm::vec3(triangle.vertex3[0], triangle.vertex3[1], triangle.vertex3[2]) - center) / maxDimension;
+
+		vertices.push_back(Vertex(v1, normal, glm::vec3(0.0f)));
+		vertices.push_back(Vertex(v2, normal, glm::vec3(0.0f)));
+		vertices.push_back(Vertex(v3, normal, glm::vec3(0.0f)));
 	}
 
 	return vertices;

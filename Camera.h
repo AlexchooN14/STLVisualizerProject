@@ -16,18 +16,14 @@ class Camera {
 public:
 	glm::vec3 position;
 	glm::vec3 orientation = glm::vec3(0.0f, 0.0f, -1.0f);
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+	//glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::mat4 cameraMatrix = glm::mat4(1.0f);
 
-private:
-	glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 3.0f);
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-	const float radius = 10.0f;
-public:
-	glm::vec3 cameraDirection = glm::normalize(cameraPosition - cameraTarget);
-	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
-	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
+	glm::vec3 eye = glm::vec3(0.0f, 0.0f, 3.0f);
+	glm::vec3 center = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 direction = glm::normalize(eye - center);
+	glm::vec3 right = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), direction));
+	glm::vec3 up = glm::normalize(glm::cross(direction, right));
 
 	int width;
 	int height;
@@ -44,7 +40,6 @@ public:
 	void Matrix(Shader& shader, const char* uniform);
 	void Inputs(GLFWwindow* window);
 
-	float getRadius() { return radius; }
 };
 
 
