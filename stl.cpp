@@ -69,7 +69,7 @@ void StlFile::readStlFileContents(std::string filename) {
 	contents.resize(header.numberOfTriangles);
 
 	file.read(reinterpret_cast<char*>(contents.data()),
-		header.numberOfTriangles * sizeof(StlFileContent));
+		this->header.numberOfTriangles * sizeof(StlFileContent));
 
 	file.close();
 }
