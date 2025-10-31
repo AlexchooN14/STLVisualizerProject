@@ -8,6 +8,8 @@
 #include "shaderClass.h"
 #include "Mesh.h"
 #include "stl.h"
+#include "Drawable.h"
+#include "InputController.h"
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 800
@@ -68,7 +70,8 @@ int main()
 	// Generates Shader object using shaders defualt.vert and default.frag
 	Shader shaderProgram("default.vert", "default.frag");
 	Mesh objectMesh(verticesVector);
-
+	Drawable drawable(objectMesh);
+	InputController input;
 
 	/*Shader lightShader("light.vert", "light.frag");
 	std::vector<Vertex> lightVerticesVector(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
@@ -113,6 +116,12 @@ int main()
 		// Clean the back buffer and assign the new color to it
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		input.Update(window, drawable);
+		std::cout << "Rotation Angle: " << drawable.rotationAngle << std::endl;
+		std::cout << "rotationVelocity: " << input.rotationVelocity << std::endl;
+		drawable.Draw(shaderProgram, camera);
+
+
 		/*camera.Inputs(window);
 		camera.updateMatrix(45.0f, 0.1f, 100.0f);*/
 
@@ -131,7 +140,7 @@ int main()
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}*/
 
-		objectMesh.Draw(shaderProgram, camera);
+		
 		//lightMesh.Draw(lightShader, camera);
 
 		// Swap the back buffer with the front buffer

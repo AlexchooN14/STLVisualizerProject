@@ -1,62 +1,22 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices) : VBO(vertices), EBO(indices) {
+Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices) {
 	this->vertices = vertices;
 	this->indices = indices;
-
-	this->VAO.Bind();
-
-	// Links VBO to VAO
-	this->VAO.LinkAttribute(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
-	this->VAO.LinkAttribute(VBO, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)(3 * sizeof(float)));
-	this->VAO.LinkAttribute(VBO, 2, 3, GL_FLOAT, sizeof(Vertex), (void*)(6 * sizeof(float)));
-	//this->VAO.LinkAttribute(VBO, 3, 2, GL_FLOAT, sizeof(Vertex), (void*)(9 * sizeof(float)));
-	// Unbind all to prevent accidentally modifying them
-	VAO.Unbind();
-	VBO.Unbind();
-	EBO.Unbind();
+	this->centroid = calculateCentroid(vertices);
 }
 
-Mesh::Mesh(std::vector<Vertex>& vertices) : VBO(vertices), EBO() {
+Mesh::Mesh(std::vector<Vertex>& vertices) {
 	this->vertices = vertices;
-	this->VAO.Bind();
-
-	// Links VBO to VAO
-	this->VAO.LinkAttribute(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
-	this->VAO.LinkAttribute(VBO, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)(3 * sizeof(float)));
-	this->VAO.LinkAttribute(VBO, 2, 3, GL_FLOAT, sizeof(Vertex), (void*)(6 * sizeof(float)));
-	//this->VAO.LinkAttribute(VBO, 3, 2, GL_FLOAT, sizeof(Vertex), (void*)(9 * sizeof(float)));
-	// Unbind all to prevent accidentally modifying them
-	VAO.Unbind();
-	VBO.Unbind();
-
-	for (const auto& v : vertices) {
-		this->centroid += v.position;
-	}
-	this->centroid /= static_cast<float>(vertices.size());
+	this->centroid = calculateCentroid(vertices);
 }
 
-void Mesh::Draw(Shader& shader, Camera& camera) {
-	shader.Activate();
-	VAO.Bind();
+glm::vec3 Mesh::calculateCentroid(std::vector<Vertex>& vertices) {
+	glm::vec3 centroid(0.0f);
+	for (const auto& v : vertices) {
+		centroid += v.position;
+	}
+	centroid /= static_cast<float>(vertices.size());
 
-	float angle = glfwGetTime(); // radians
-
-	glm::mat4 model = glm::mat4(1.0f);
-
-	// Translate to origin (center the object)
-	model = glm::translate(model, -this->centroid);
-
-	// Rotate around Y-axis
-	model = glm::rotate(model, angle, glm::vec3(0.0f, 1.0f, 0.0f));
-
-	// Translate back to original position
-	model = glm::translate(model, this->centroid);
-
-	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(model));
-
-	glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.position.x, camera.position.y, camera.position.z);
-	camera.Matrix(shader, "camMatrix");
-
-	glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
+	return centroid;
 }

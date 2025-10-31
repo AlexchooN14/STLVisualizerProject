@@ -16,14 +16,10 @@ public:
 	std::vector<GLuint> indices;
 	glm::vec3 centroid = glm::vec3(0.0f);
 
-	VAO VAO;
-	VBO VBO;
-	EBO EBO;
-
 	Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices);
 	Mesh(std::vector<Vertex>& vertices);
 
-	void Draw(Shader& shader, Camera& camera);
+	glm::vec3 calculateCentroid(std::vector<Vertex>& vertices);
 };
 
 #endif // !MESH_H
