@@ -5,19 +5,22 @@
 
 class Drawable
 {
-public:
-	Mesh mesh;
-
+private:
 	VAO VAO;
 	VBO VBO;
 	EBO EBO;
 
 	glm::mat4 rotationMatrix;
+	glm::mat4 scalingMatrix;
+
+public:
+	Mesh mesh;
 
 	Drawable(Mesh& mesh);
 
 	void Draw(Shader& shader, Camera& camera);
 	void ApplyRotation(float angleDeltaX, float angleDeltaY);
+	void ApplyScaling(float scale);
 };
 
 #endif // !DRAWABLE_H

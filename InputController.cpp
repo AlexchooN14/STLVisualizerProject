@@ -1,37 +1,89 @@
 #include "InputController.h"
 
 
-void InputController::Update(GLFWwindow* window, Drawable& drawable) {
-    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+InputController::InputController(GLFWwindow* window, Drawable& drawable) : window(window), drawable(drawable) {
+    this->rotationVelocity = glm::vec2(0.0f);
+    this->rotating = false;
+    this->scaling = false;
+
+	registerInputCallbacks();
+}
+
+void InputController::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
         double mouseX, mouseY;
         glfwGetCursorPos(window, &mouseX, &mouseY);
-        glm::vec2 currentMousePosition(mouseX, mouseY);
 
-        if (!this->rotating) {
-            this->rotating = true;
-            lastMousePosition = currentMousePosition;
-        }
-        else {
-            glm::vec2 delta = currentMousePosition - this->lastMousePosition;
-            float angleDeltaX = delta.x * sensitivity;
-            float angleDeltaY = delta.y * sensitivity;
+        this->rotating = true;
+        this->lastMousePosition = glm::vec2(mouseX, mouseY);
+    }
 
-            drawable.ApplyRotation(angleDeltaX, angleDeltaY);
-            rotationVelocity.x = angleDeltaX;
-            rotationVelocity.y = angleDeltaY;
-            lastMousePosition = currentMousePosition;
-        }
-    } else {
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         this->rotating = false;
+    }
+}
 
-        // Apply inertia if there is velocity
-        if (std::abs(rotationVelocity.x) > 0.0001f || std::abs(rotationVelocity.y) > 0.0001f) {
-            drawable.ApplyRotation(rotationVelocity.x, rotationVelocity.y);
-            rotationVelocity *= 0.97f; // damping
-        } else {
-			rotationVelocity = glm::vec2(0.0f);
+void InputController::mouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+	this->scaling = true;
+    this->scalingVelocity = yoffset * this->scaleSensitivity;
+    float scaleFactor = 1.0f + this->scalingVelocity;
+    this->drawable.ApplyScaling(scaleFactor);
+}
+
+void InputController::registerInputCallbacks() {
+    glfwSetScrollCallback(this->window, [](GLFWwindow* window, double xoffset, double yoffset) {
+        InputController* controller = static_cast<InputController*>(glfwGetWindowUserPointer(window));
+        if (controller) controller->mouseScrollCallback(window, xoffset, yoffset);
+        });
+
+    glfwSetMouseButtonCallback(this->window, [](GLFWwindow* window, int button, int action, int mods) {
+        InputController* controller = static_cast<InputController*>(glfwGetWindowUserPointer(window));
+        if (controller) controller->mouseButtonCallback(window, button, action, mods);
+        });
+
+    glfwSetWindowUserPointer(this->window, this);
+}
+
+void InputController::Update() {
+    if (this->rotating) {
+        double mouseX, mouseY;
+        glfwGetCursorPos(this->window, &mouseX, &mouseY);
+        glm::vec2 currentMousePosition(mouseX, mouseY);
+
+        this->mousePositionDelta = currentMousePosition - this->lastMousePosition;
+        this->lastMousePosition = currentMousePosition;
+
+        float angleDeltaX = this->mousePositionDelta.x * this->dragSensitivity;
+        float angleDeltaY = this->mousePositionDelta.y * this->dragSensitivity;
+
+        this->drawable.ApplyRotation(angleDeltaX, angleDeltaY);
+        rotationVelocity = glm::vec2(angleDeltaX, angleDeltaY);
+    } 
+    else {
+        // Inertia and damping functionality for rotation
+        if (glm::length(rotationVelocity) > 0.0001f) {
+            this->drawable.ApplyRotation(rotationVelocity.x, rotationVelocity.y);
+            rotationVelocity *= 0.97f;
+        }
+        else {
+            rotationVelocity = glm::vec2(0.0f);
         }
     }
+
+    if (this->scaling) {
+		// Inertia and damping functionality for scaling
+        if (std::abs(this->scalingVelocity) > 0.0001f) {
+            float scaleFactor = 1.0f + this->scalingVelocity;
+            this->drawable.ApplyScaling(scaleFactor);
+            this->scalingVelocity *= 0.95f;
+        }
+        else {
+            this->scalingVelocity = 0.0f;
+            this->scaling = false;
+        }
+	}
+
 }

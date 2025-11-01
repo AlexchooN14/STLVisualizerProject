@@ -6,14 +6,27 @@
 
 
 class InputController {
-public:
+private:
+    GLFWwindow* window;
+    Drawable& drawable;
+
     glm::vec2 rotationVelocity = glm::vec2(0.0f);
+    float scalingVelocity = 0.0f;
     glm::vec2 lastMousePosition;
-    bool rotating = false;
+	glm::vec2 mousePositionDelta;
 
-	float sensitivity = 0.02f;
+	const float dragSensitivity = 0.02f;
+	const float scaleSensitivity = 0.01f;
+    bool rotating;
+    bool scaling;
 
-    void Update(GLFWwindow* window, Drawable& drawable);
+    void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+    void mouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+    void registerInputCallbacks();
+
+public:
+    InputController(GLFWwindow* window, Drawable& drawable);
+    void Update();
 };
 
 
