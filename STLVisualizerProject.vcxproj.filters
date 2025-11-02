@@ -19,6 +19,12 @@
     <Filter Include="Header Files\imgui">
       <UniqueIdentifier>{c8372fc3-b8e8-4f4d-a346-c7518f28de33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{84d439c5-9215-4a58-aaf8-1c7d0634d426}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{b5d21e68-7f2d-4031-b2c9-4102565d9bed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="STLVisualizerProject.cpp">
@@ -81,6 +87,12 @@
     <ClCompile Include="imgui\imgui_tables.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="ImGuiWindowBase.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsWindow.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stl.h">
@@ -139,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="imgui\imgui_impl_opengl3_loader.h">
       <Filter>Header Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiWindowBase.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsWindow.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

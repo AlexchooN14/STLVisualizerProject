@@ -1,4 +1,7 @@
 #include "InputController.h"
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 
 
 InputController::InputController(GLFWwindow* window, Drawable& drawable) : window(window), drawable(drawable) {
@@ -35,14 +38,20 @@ void InputController::mouseScrollCallback(GLFWwindow* window, double xoffset, do
 
 void InputController::registerInputCallbacks() {
     glfwSetScrollCallback(this->window, [](GLFWwindow* window, double xoffset, double yoffset) {
-        InputController* controller = static_cast<InputController*>(glfwGetWindowUserPointer(window));
-        if (controller) controller->mouseScrollCallback(window, xoffset, yoffset);
-        });
+        ImGui_ImplGlfw_ScrollCallback(window, xoffset, yoffset);
+        if (!ImGui::GetIO().WantCaptureMouse) {
+            InputController* controller = static_cast<InputController*>(glfwGetWindowUserPointer(window));
+            if (controller) controller->mouseScrollCallback(window, xoffset, yoffset);
+        }
+    });
 
     glfwSetMouseButtonCallback(this->window, [](GLFWwindow* window, int button, int action, int mods) {
-        InputController* controller = static_cast<InputController*>(glfwGetWindowUserPointer(window));
-        if (controller) controller->mouseButtonCallback(window, button, action, mods);
-        });
+        ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods);
+        if (!ImGui::GetIO().WantCaptureMouse) {
+            InputController* controller = static_cast<InputController*>(glfwGetWindowUserPointer(window));
+            if (controller) controller->mouseButtonCallback(window, button, action, mods);
+        }
+    });
 
     glfwSetWindowUserPointer(this->window, this);
 }

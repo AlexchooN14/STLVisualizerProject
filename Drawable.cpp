@@ -9,8 +9,7 @@ Drawable::Drawable(Mesh& mesh) : mesh(mesh), VBO(mesh.vertices), EBO() {
 	// Links VBO to VAO
 	this->VAO.LinkAttribute(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
 	this->VAO.LinkAttribute(VBO, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)(3 * sizeof(float)));
-	this->VAO.LinkAttribute(VBO, 2, 3, GL_FLOAT, sizeof(Vertex), (void*)(6 * sizeof(float)));
-	//this->VAO.LinkAttribute(VBO, 3, 2, GL_FLOAT, sizeof(Vertex), (void*)(9 * sizeof(float)));
+
 	// Unbind all to prevent accidentally modifying them
 	VAO.Unbind();
 	VBO.Unbind();

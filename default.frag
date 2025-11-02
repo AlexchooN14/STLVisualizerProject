@@ -3,8 +3,8 @@ out vec4 FragColor;
 
 in vec3 currPos;
 in vec3 Normal;
-in vec3 color;
 
+uniform vec4 objectColor;
 uniform vec4 lightColor;
 uniform vec3 lightPos;
 uniform vec3 camPos;
@@ -27,7 +27,7 @@ vec4 pointLight() {
 	float specularAmount = pow(max(dot(viewDirection, reflectDirection), 0.0f), 8);
 	float specular = specularStrength * specularAmount;
 
-	return vec4(color, 1.0f) * lightColor * (diffuse + ambientStrength * intensity + specular * intensity);
+	return objectColor * lightColor * (diffuse + ambientStrength * intensity + specular * intensity);
 }
 
 vec4 directLight() {
@@ -42,7 +42,7 @@ vec4 directLight() {
 	float specularAmount = pow(max(dot(viewDirection, reflectDirection), 0.0f), 8);
 	float specular = specularStrength * specularAmount;
 
-	return vec4(color, 1.0f) * lightColor * (diffuse + ambientStrength + specular);
+	return objectColor * lightColor * (diffuse + ambientStrength + specular);
 }
 
 vec4 spotLight() {
@@ -63,13 +63,13 @@ vec4 spotLight() {
 	float angle = dot(vec3(0.0f, -1.0f, 0.0f), -lightDirection);
 	float intensity = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
 
-	return vec4(color, 1.0f) * lightColor * (diffuse * intensity + ambientStrength + specular * intensity);
+	return objectColor * lightColor * (diffuse * intensity + ambientStrength + specular * intensity);
 }
 
 void main()
 {
-	// Debug
 	// FragColor = vec4(normalize(Normal) * 0.5 + 0.5, 1.0);
 	// FragColor = directLight();
-	FragColor = vec4(color, 1.0); // Should show vertex color
+	// Debug
+	FragColor = objectColor;
 }
