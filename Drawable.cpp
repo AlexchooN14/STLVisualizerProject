@@ -3,6 +3,7 @@
 
 Drawable::Drawable(Mesh& mesh) : mesh(mesh), VBO(mesh.vertices), EBO() {
 	this->rotationMatrix = glm::mat4(1.0f);
+	this->rotationQuaternion = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
 	this->scalingMatrix = glm::mat4(1.0f);
 	this->VAO.Bind();
 
@@ -41,17 +42,12 @@ void Drawable::Draw(Shader& shader, Camera& camera) {
 }
 
 void Drawable::ApplyRotation(float angleDeltaX, float angleDeltaY) {
-	// This does not seem to fix problem with misinterpreted rotation axes
-	/*glm::vec3 localX = glm::vec3(rotationMatrix[0]);
-	glm::vec3 localY = glm::vec3(rotationMatrix[1]);
-	glm::mat4 rotX = glm::rotate(glm::mat4(1.0f), angleDeltaY, localX);
-	glm::mat4 rotY = glm::rotate(glm::mat4(1.0f), angleDeltaX, localY);*/
+	glm::quat yaw = glm::angleAxis(angleDeltaX, glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::quat pitch = glm::angleAxis(angleDeltaY, glm::vec3(1.0f, 0.0f, 0.0f));
 
-	glm::mat4 rotX = glm::rotate(glm::mat4(1.0f), angleDeltaY, glm::vec3(1.0f, 0.0f, 0.0f));
-	glm::mat4 rotY = glm::rotate(glm::mat4(1.0f), angleDeltaX, glm::vec3(0.0f, 1.0f, 0.0f));
-	
+	this->rotationQuaternion = glm::normalize(yaw * pitch * this->rotationQuaternion);
 
-	this->rotationMatrix *= rotX * rotY;
+	this->rotationMatrix = glm::mat4_cast(this->rotationQuaternion);
 }
 
 // Debug purposes

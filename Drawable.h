@@ -10,6 +10,7 @@ private:
 	VBO VBO;
 	EBO EBO;
 
+	glm::quat rotationQuaternion;
 	glm::mat4 rotationMatrix;
 	glm::mat4 scalingMatrix;
 

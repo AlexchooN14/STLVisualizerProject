@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="OptionsWindow.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="EBO.cpp" />
@@ -155,15 +156,16 @@
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="shaderClass.cpp" />
-    <ClCompile Include="Source.cpp" />
     <ClCompile Include="stl.cpp" />
     <ClCompile Include="STLVisualizerProject.cpp" />
+    <ClCompile Include="UBO.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
     <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="LightManager.h" />
     <ClInclude Include="OptionsWindow.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="EBO.h" />
@@ -181,6 +183,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="shaderClass.h" />
     <ClInclude Include="stl.h" />
+    <ClInclude Include="UBO.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
     <ClInclude Include="Vertex.h" />
