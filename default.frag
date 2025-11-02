@@ -68,5 +68,8 @@ vec4 spotLight() {
 
 void main()
 {
-	FragColor = directLight();
+	// Debug
+	// FragColor = vec4(normalize(Normal) * 0.5 + 0.5, 1.0);
+	// FragColor = directLight();
+	FragColor = vec4(color, 1.0); // Should show vertex color
 }

@@ -112,9 +112,9 @@ std::vector<Vertex> StlFile::verticesConvertVertexArray() {
 		glm::vec3 v2 = (glm::vec3(triangle.vertex2[0], triangle.vertex2[1], triangle.vertex2[2]) - center) / maxDimension;
 		glm::vec3 v3 = (glm::vec3(triangle.vertex3[0], triangle.vertex3[1], triangle.vertex3[2]) - center) / maxDimension;
 
-		vertices.push_back(Vertex(v1, normal, glm::vec3(0.0f)));
-		vertices.push_back(Vertex(v2, normal, glm::vec3(0.0f)));
-		vertices.push_back(Vertex(v3, normal, glm::vec3(0.0f)));
+		vertices.push_back(Vertex(v1, normal));
+		vertices.push_back(Vertex(v2, normal));
+		vertices.push_back(Vertex(v3, normal));
 	}
 
 	return vertices;

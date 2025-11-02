@@ -11,29 +11,23 @@
 #include "Drawable.h"
 #include "InputController.h"
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 800
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 
-
-GLuint lightIndices[] =
-{
-	0, 1, 2,
-	0, 2, 3,
-	0, 4, 7,
-	0, 7, 3,
-	3, 7, 6,
-	3, 6, 2,
-	2, 6, 5,
-	2, 5, 1,
-	1, 5, 4,
-	1, 4, 0,
-	4, 5, 6,
-	4, 6, 7
-};
+#define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 1080
 
 
 int main()
 {
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+
 	StlFile stl = StlFile("stl_file.STL");
 	std::vector<Vertex> verticesVector = stl.verticesConvertVertexArray();
 
@@ -46,7 +40,7 @@ int main()
 	// Tell GLFW we are using the CORE profile
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "STL_Previewer", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "STL_Previewer", glfwGetPrimaryMonitor(), NULL);
 	// Error check if the window fails to create
 	if (window == NULL)
 	{
@@ -57,10 +51,14 @@ int main()
 	// Introduce the window into the current context
 	glfwMakeContextCurrent(window);
 
+	// Setup Platform/Renderer backends
+	ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+	ImGui_ImplOpenGL3_Init();
+
+
 	// Load GLAD so it configures OpenGL
 	gladLoadGL();
 	// Specify the viewport of OpenGL in the Window
-	// In this case the viewport goes from x = 0, y = 0, to x = 800, y = 800
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 
@@ -70,71 +68,47 @@ int main()
 	Drawable drawable(objectMesh);
 	InputController input(window, drawable);
 
-	/*Shader lightShader("light.vert", "light.frag");
-	std::vector<Vertex> lightVerticesVector(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
-	std::vector<GLuint> lightIndicesVector(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
-	Mesh lightMesh(lightVerticesVector, lightIndicesVector);*/
+	shaderProgram.Activate();
 
-	/*glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	glm::vec3 lightPosition = glm::vec3(0.5f, 0.5f, 0.5f);
+	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	glm::vec3 lightPos = glm::vec3(0.0f, 0.01f, 0.02f);
 	glm::mat4 lightModel = glm::mat4(1.0f);
-	lightModel = glm::translate(lightModel, lightPosition);*/
-
-	/*glm::vec3 pyramidPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::mat4 pyramidModel = glm::mat4(1.0f);
-	pyramidModel = glm::translate(pyramidModel, pyramidPosition);*/
-
-	/*lightShader.Activate();
-	glUniformMatrix4fv(glGetUniformLocation(lightShader.ID, "model"), 1, GL_FALSE, glm::value_ptr(lightModel));
-	glUniform4f(glGetUniformLocation(lightShader.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-	glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "model"), 1, GL_FALSE, glm::value_ptr(pyramidModel));
+	lightModel = glm::translate(lightModel, lightPos);
+	
 	glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-	glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPosition.x, lightPosition.y, lightPosition.z);*/
+	glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
 	glm::vec3 originPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, originPosition);
 	glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
-	shaderProgram.Activate();
-
 	glEnable(GL_DEPTH_TEST);
 
 	Camera camera(glm::vec3(0.0f, 0.0f, 2.0f), SCREEN_WIDTH, SCREEN_HEIGHT);
+	camera.updateMatrix(45.0f, 0.1f, 100.0f);
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
 	{
-		// Specify the color of the background
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		ImGui::ShowDemoWindow();
+
+
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+
 		// Clean the back buffer and assign the new color to it
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		input.Update();
 		drawable.Draw(shaderProgram, camera);
-		// For now commenting out this
-		//camera.updateMatrix(45.0f, 0.1f, 100.0f);
 
-		/*if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-			double mouseX, mouseY;
-			glfwGetCursorPos(window, &mouseX, &mouseY);
-
-			float rotX = sensitivity * (float)(mouseY - (SCREEN_HEIGHT / 2)) / SCREEN_HEIGHT;
-			float rotY = sensitivity * (float)(mouseX - (SCREEN_WIDTH / 2)) / SCREEN_WIDTH;
-
-			
-			glfwSetCursorPos(window, (width / 2), (height / 2));
-		}
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE) {
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		}*/
-
-		
-		//lightMesh.Draw(lightShader, camera);
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
@@ -142,13 +116,8 @@ int main()
 		glfwPollEvents();
 	}
 
-
-
-	// Delete all the objects we've 
 	shaderProgram.Delete();
-	//lightShader.Delete();
 	glfwDestroyWindow(window);
-	// Terminate GLFW before ending the program
 	glfwTerminate();
 	return 0;
 }
