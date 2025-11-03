@@ -19,6 +19,7 @@ public:
 	OptionsWindow(std::string name, GLint objectColorUniform, int width, int height, float positionX, float positionY);
 	void Draw() override;
 	bool isTransparencyEnabled();
+	bool isWireframeEnabled();
 };
 
 #endif // !COLOR_PICKER_WINDOW_H

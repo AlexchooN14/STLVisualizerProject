@@ -53,6 +53,7 @@ void initApplication() {
 	// Load GLAD so it configures OpenGL
 	gladLoadGL();
 
+	// To enable transparency
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -60,7 +61,6 @@ void initApplication() {
 
 int main()
 {
-
 	StlFile stl = StlFile("stl_file.STL");
 	std::vector<Vertex> verticesVector = stl.verticesConvertVertexArray();
 
@@ -79,7 +79,8 @@ int main()
 	lightManager.addlight(glm::vec3(0.0f, 2.0f, 0.0f), LIGHT_TYPE_SPOT);
 	lightManager.addlight(glm::vec3(-2.0f, 0.0f, 2.0f), LIGHT_TYPE_DIRECTIONAL);
 	lightManager.addlight(glm::vec3(0.0f, 0.0f, -2.0f), LIGHT_TYPE_POINT);
-	lightManager.updateLights();
+	lightManager.updateLightBuffer();
+	lightManager.enableLights();
 
 
 	glm::vec3 originPosition = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -92,9 +93,7 @@ int main()
 	Camera camera(glm::vec3(0.0f, 0.0f, 2.0f), SCREEN_WIDTH, SCREEN_HEIGHT);
 	camera.updateMatrix(45.0f, 0.1f, 100.0f);
 
-	OptionsWindow OptionsWindow("Options Chooser", glGetUniformLocation(shaderProgram.ID, "objectColor"), 300, 400, 10.0f, 10.0f);
-
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	OptionsWindow optionsWindow("Options Chooser", glGetUniformLocation(shaderProgram.ID, "objectColor"), 300, 400, 10.0f, 10.0f);
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
@@ -107,9 +106,17 @@ int main()
 		if (!io.WantCaptureMouse) {
 			input.Update();
 		}
-		drawable.Draw(shaderProgram, camera);
 
-		OptionsWindow.Draw();
+		if (optionsWindow.isWireframeEnabled()) {
+			// Not very efficient bacause it sends the data every frame
+			lightManager.disableLights();
+		}
+		else {
+			lightManager.enableLights();
+		}
+
+		drawable.Draw(shaderProgram, camera);
+		optionsWindow.Draw();
 		// std::cout << OptionsWindow.isTransparencyEnabled() << std::endl;
 
 		// Swap the back buffer with the front buffer
@@ -119,8 +126,7 @@ int main()
 	}
 
 
-	OptionsWindow.Destroy();
-
+	optionsWindow.Destroy();
 	shaderProgram.Delete();
 	glfwDestroyWindow(window);
 	glfwTerminate();

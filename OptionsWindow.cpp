@@ -1,43 +1,75 @@
 #include "OptionsWindow.h"
 #include "ImGuiWindowBase.h"
 #include "glad/glad.h"
-
+#include <iostream>
 
 OptionsWindow::OptionsWindow(std::string name, GLint objectColorUniform, int width, int height, float positionX, float positionY) :
 	ImGuiWindowBase(name, width, height, positionX, positionY) {
 
 	this->objectColorUniform = objectColorUniform;
 	this->objectColor = ImVec4((69.0f / 255.0f), (161.0f / 255.0f), (204.0f / 255.0f), 1.0f);
-	this->flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse;
+	this->flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize;
 }
 
 bool OptionsWindow::isTransparencyEnabled() {
 	return this->transparencyEnabled;
 }
 
+bool OptionsWindow::isWireframeEnabled() {
+	return this->wireframeEnabled;
+}
+
+
 void OptionsWindow::Draw() {
 	// Obligatory call
 	this->BeginFrame();
 
-	ImGui::SetNextWindowSize(ImVec2(this->width, this->height), ImGuiCond_Always);
+	ImGui::SetNextWindowSizeConstraints(ImVec2(this->width, 0), ImVec2(this->width, FLT_MAX));
+	// ImGui::SetNextWindowSize(ImVec2(this->width, this->height), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(this->positionX, this->positionY), ImGuiCond_Always);
 
 	ImGui::Begin(this->name.c_str(), nullptr, this->flags);
 
-	if (ImGui::Button("Transparency")) {
+	
+	if (!this->transparencyEnabled && !this->wireframeEnabled) {
+		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered));
+	}
+	else {
+		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Button));
+	}
+	if (ImGui::Button("Solid Color", ImVec2(ImGui::GetContentRegionAvail().x, 30))) {
+		this->transparencyEnabled = false;
+		this->wireframeEnabled = false;
+	}
+	ImGui::PopStyleColor();
+
+	if (this->transparencyEnabled) {
+		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered));
+	}
+	else {
+		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Button));
+	}
+	if (ImGui::Button("Transparency", ImVec2(ImGui::GetContentRegionAvail().x, 30))) {
 		this->transparencyEnabled = !this->transparencyEnabled;
 		this->wireframeEnabled = false;
 	}
+	ImGui::PopStyleColor();
 
-	if (ImGui::Button("Wireframe")) {
+
+	if (this->wireframeEnabled) {
+		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered));
+	}
+	else {
+		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Button));
+	}
+	if (ImGui::Button("Wireframe", ImVec2(ImGui::GetContentRegionAvail().x, 30))) {
 		this->wireframeEnabled = !this->wireframeEnabled;
 		this->transparencyEnabled = false;
 	}
+	ImGui::PopStyleColor();
 
-	// ImGui::Text("This is some useful text.");
-	/*ImGui::SliderFloat("HUE", &this->hue, 0.0f, 255.0f);
-	glUniform4f(this->objectColorUniform, objectColor.x, lightColor.y, lightColor.z, lightColor.w);*/
-	ImGui::ColorEdit3("Object Color", (float*)&this->objectColor);
+
+	ImGui::ColorEdit3("Color", (float*)&this->objectColor);
 
 	if (this->transparencyEnabled) {
 		glUniform4f(this->objectColorUniform, this->objectColor.x, this->objectColor.y, this->objectColor.z, 0.3f);

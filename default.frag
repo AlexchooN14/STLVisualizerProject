@@ -6,6 +6,7 @@ in vec3 Normal;
 
 uniform vec4 objectColor;
 uniform vec3 camPos;
+uniform bool lightsEnabled;
 
 #define MAX_LIGHTS				8
 #define LIGHT_TYPE_POINT		0
@@ -100,9 +101,27 @@ vec4 calculateLight(Light light) {
 
 void main()
 {
-	vec4 result = vec4(0.0);
-	for (int i = 0; i < lightCount; i++) {
-		result += calculateLight(lights[i]);
+	if (lightsEnabled) {
+		vec4 result = vec4(0.0);
+		for (int i = 0; i < lightCount; i++) {
+			result += calculateLight(lights[i]);
+		}
+
+		// Ambient occlusion based on view angle
+		float ao = pow(dot(normalize(Normal), normalize(camPos - currPos)), lightsEnabled && objectColor.w < 1.0 ? 0.3 : 0.8);
+
+		// Clamp so no total black areas
+		ao = clamp(ao, 0.3, 1.0);
+
+		if (objectColor.w < 1.0) {
+			// Increase brightness for transparent objects
+			FragColor = vec4(result.rgb * ao * 2.0f, objectColor.w);
+		} else {
+			FragColor = vec4(result.rgb * ao, objectColor.w);
+		}
+
+	} else {
+		FragColor = objectColor;
 	}
-	FragColor = result;
+	
 }

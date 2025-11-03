@@ -36,14 +36,17 @@ class LightManager {
 protected:
 	std::vector<Light> lights;
 	UBO lightUBO;
+	GLuint lightsEnabledUniformLocation;
 
 public:
-	LightManager(Shader& shaderProgram, std::vector<Light> lights);
+	LightManager(Shader& shaderProgram, std::vector<Light>& lights);
 	LightManager(Shader& shaderProgram);
 
 	void addlight(glm::vec3 position, glm::vec4 color, int type);
 	void addlight(glm::vec3 position, int type);
-	void updateLights();
+	void updateLightBuffer();
+	void disableLights();
+	void enableLights();
 };
 
 
