@@ -2,6 +2,8 @@
 #include "ImGuiWindowBase.h"
 #include "glad/glad.h"
 #include <iostream>
+#include "Scene.h"
+
 
 OptionsWindow::OptionsWindow(std::string name, GLint objectColorUniform, int width, int height, float positionX, float positionY) :
 	ImGuiWindowBase(name, width, height, positionX, positionY) {
@@ -19,10 +21,9 @@ bool OptionsWindow::isWireframeEnabled() {
 	return this->wireframeEnabled;
 }
 
-
-void OptionsWindow::Draw() {
+void OptionsWindow::draw(Scene* scene) {
 	// Obligatory call
-	this->BeginFrame();
+	this->beginFrame();
 
 	ImGui::SetNextWindowSizeConstraints(ImVec2(this->width, 0), ImVec2(this->width, FLT_MAX));
 	// ImGui::SetNextWindowSize(ImVec2(this->width, this->height), ImGuiCond_Always);
@@ -30,7 +31,7 @@ void OptionsWindow::Draw() {
 
 	ImGui::Begin(this->name.c_str(), nullptr, this->flags);
 
-	
+	// -- SOLID COLOR BUTTON --
 	if (!this->transparencyEnabled && !this->wireframeEnabled) {
 		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered));
 	}
@@ -42,7 +43,9 @@ void OptionsWindow::Draw() {
 		this->wireframeEnabled = false;
 	}
 	ImGui::PopStyleColor();
+	// ----------------------
 
+	// -- TRANSPARENCY BUTTON --
 	if (this->transparencyEnabled) {
 		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered));
 	}
@@ -54,20 +57,28 @@ void OptionsWindow::Draw() {
 		this->wireframeEnabled = false;
 	}
 	ImGui::PopStyleColor();
+	// ----------------------
 
-
+	// -- WIREFRAME BUTTON --
 	if (this->wireframeEnabled) {
 		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered));
+		// Disable lights when in wireframe mode so we can see the wireframe better
+		if (scene->lightManager.getLightsEnabled()) {
+			scene->lightManager.disableLights();
+		}
 	}
 	else {
 		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Button));
+		if (!scene->lightManager.getLightsEnabled()) {
+			scene->lightManager.enableLights();
+		}
 	}
 	if (ImGui::Button("Wireframe", ImVec2(ImGui::GetContentRegionAvail().x, 30))) {
 		this->wireframeEnabled = !this->wireframeEnabled;
 		this->transparencyEnabled = false;
 	}
 	ImGui::PopStyleColor();
-
+	// ----------------------
 
 	ImGui::ColorEdit3("Color", (float*)&this->objectColor);
 
@@ -86,5 +97,5 @@ void OptionsWindow::Draw() {
 	ImGui::End();
 
 	// Obligatory call
-	this->EndFrame();
+	this->endFrame();
 }

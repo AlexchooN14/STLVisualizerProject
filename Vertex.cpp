@@ -1,5 +1,6 @@
 #include "Vertex.h"
 
+
 Vertex::Vertex(float vertex[3], float normal[3]) {
 	this->position = glm::vec3(vertex[0], vertex[1], vertex[2]);
 	this->normal = glm::vec3(normal[0], normal[1], normal[2]);
@@ -8,4 +9,8 @@ Vertex::Vertex(float vertex[3], float normal[3]) {
 Vertex::Vertex(glm::vec3 position, glm::vec3 normal) {
 	this->position = position;
 	this->normal = normal;
+}
+
+glm::vec3 Vertex::getPosition() {
+	return this->position;
 }

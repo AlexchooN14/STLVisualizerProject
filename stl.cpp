@@ -1,5 +1,4 @@
 #include "stl.h"
-#include "Vertex.h"
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -34,14 +33,6 @@ std::ostream& operator<<(std::ostream& stream, const StlFileContent& content) {
 	printVec3(stream, "Vertex1", content.vertex1);
 	printVec3(stream, "Vertex2", content.vertex2);
 	printVec3(stream, "Vertex3", content.vertex3);
-
-	/*stream << "attributeByteCount" << std::endl;
-	for (int i = 0; i < 2; i++) {
-		stream << "Byte" << i << ":" << std::endl;
-		for (int j = 15; j > 0; j--) {
-			stream << "Bit" << abs(j - 15) << ": " << (content.attributeByteCount >> j) << std::endl;
-		}
-	}*/
 
 	return stream;
 }

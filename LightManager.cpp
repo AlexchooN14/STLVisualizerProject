@@ -1,5 +1,8 @@
 #include "LightManager.h"
 #include <stdexcept>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 
 LightManager::LightManager(Shader& shaderProgram, std::vector<Light>& lights) :
@@ -46,9 +49,15 @@ void LightManager::updateLightBuffer() {
 }
 
 void LightManager::disableLights() {
-	glUniform1i(this->lightsEnabledUniformLocation, false);
+	this->isLightsEnabled = false;
+	glUniform1i(this->lightsEnabledUniformLocation, this->isLightsEnabled);
 }
 
 void LightManager::enableLights() {
-	glUniform1i(this->lightsEnabledUniformLocation, true);
+	this->isLightsEnabled = true;
+	glUniform1i(this->lightsEnabledUniformLocation, this->isLightsEnabled);
+}
+
+bool LightManager::getLightsEnabled() {
+	return this->isLightsEnabled;
 }

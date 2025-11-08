@@ -6,6 +6,9 @@
 #include "imgui_impl_opengl3.h"
 #include <string>
 
+
+class Scene;
+
 class ImGuiWindowBase {
 protected:
 	std::string name;
@@ -16,20 +19,18 @@ protected:
 	ImGuiWindowFlags flags;
 
 	// should be called every main loop start
-	static void BeginFrame();
+	static void beginFrame();
 	// should be called every main loop end
-	static void EndFrame();
+	static void endFrame();
 
 public:
 	
 	ImGuiWindowBase(std::string name, int width, int height, float positionX, float positionY);
 	
-	virtual void Draw() = 0;
+	virtual void draw(Scene* scene) = 0;
 
 	// Should be called at the end of the program
-	void Destroy();
-	
+	void destroy();
 };
-
 
 #endif // !IMGUI_WINDOW_BASE_H

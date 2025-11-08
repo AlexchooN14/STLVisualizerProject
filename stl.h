@@ -4,9 +4,8 @@
 #include <cstdint>
 #include <string>
 #include <vector>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include "Vertex.h"
+
 
 #pragma pack(push, 1)
 typedef struct StlFileHeader {
@@ -23,22 +22,24 @@ typedef struct StlFileContent {
 }StlFileContent;
 #pragma pack(pop)
 
+
+void printVec3(std::ostream& stream, const std::string name, const float vector[3]);
+
+
 class StlFile {
-public:
+private:
 	StlFileHeader header;
 	std::vector<StlFileContent> contents;
 
+public:
 	StlFile(std::string filename);
 
 	void readStlFileContents(std::string filename);
-
 	std::vector<Vertex> verticesConvertVertexArray();
+
+	friend std::ostream& operator<<(std::ostream& stream, StlFileHeader& header);
+	friend std::ostream& operator<<(std::ostream& stream, const StlFileContent& content);
+	friend std::ostream& operator<<(std::ostream& stream, const StlFile& file);
 };
-
-void printVec3(std::ostream& stream, const std::string name, const float vector[3]);
-std::ostream& operator<<(std::ostream& stream, StlFileHeader& header);
-std::ostream& operator<<(std::ostream & stream, const StlFileContent & content);
-std::ostream& operator<<(std::ostream & stream, const StlFile & file);
-
 
 #endif // !STL_FILE_STRUCT_H

@@ -33,7 +33,7 @@ void InputController::mouseScrollCallback(GLFWwindow* window, double xoffset, do
 	this->scaling = true;
     this->scalingVelocity = yoffset * this->scaleSensitivity;
     float scaleFactor = 1.0f + this->scalingVelocity;
-    this->drawable.ApplyScaling(scaleFactor);
+    this->drawable.applyScaling(scaleFactor);
 }
 
 void InputController::registerInputCallbacks() {
@@ -56,7 +56,7 @@ void InputController::registerInputCallbacks() {
     glfwSetWindowUserPointer(this->window, this);
 }
 
-void InputController::Update() {
+void InputController::update() {
     if (this->rotating) {
         double mouseX, mouseY;
         glfwGetCursorPos(this->window, &mouseX, &mouseY);
@@ -68,17 +68,17 @@ void InputController::Update() {
         float angleDeltaX = this->mousePositionDelta.x * this->dragSensitivity;
         float angleDeltaY = this->mousePositionDelta.y * this->dragSensitivity;
 
-        this->drawable.ApplyRotation(angleDeltaX, angleDeltaY);
-        rotationVelocity = glm::vec2(angleDeltaX, angleDeltaY);
+        this->drawable.applyRotation(angleDeltaX, angleDeltaY);
+        this->rotationVelocity = glm::vec2(angleDeltaX, angleDeltaY);
     } 
     else {
         // Inertia and damping functionality for rotation
-        if (glm::length(rotationVelocity) > 0.0001f) {
-            this->drawable.ApplyRotation(rotationVelocity.x, rotationVelocity.y);
-            rotationVelocity *= 0.97f;
+        if (glm::length(this->rotationVelocity) > 0.0001f) {
+            this->drawable.applyRotation(this->rotationVelocity.x, this->rotationVelocity.y);
+            this->rotationVelocity *= 0.97f;
         }
         else {
-            rotationVelocity = glm::vec2(0.0f);
+            this->rotationVelocity = glm::vec2(0.0f);
         }
     }
 
@@ -86,7 +86,7 @@ void InputController::Update() {
 		// Inertia and damping functionality for scaling
         if (std::abs(this->scalingVelocity) > 0.0001f) {
             float scaleFactor = 1.0f + this->scalingVelocity;
-            this->drawable.ApplyScaling(scaleFactor);
+            this->drawable.applyScaling(scaleFactor);
             this->scalingVelocity *= 0.95f;
         }
         else {
@@ -94,5 +94,4 @@ void InputController::Update() {
             this->scaling = false;
         }
 	}
-
 }

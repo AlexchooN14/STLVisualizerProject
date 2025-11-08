@@ -37,18 +37,18 @@
     <Filter Include="Header Files\GPU">
       <UniqueIdentifier>{688cfe83-2ba1-4277-bc30-f8372a186a3e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\STL">
+      <UniqueIdentifier>{a13026b0-ad4c-4fc8-9e9f-674007ebec36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\STL">
+      <UniqueIdentifier>{2555a164-4701-4bac-bc96-97ec0ecce25e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="STLVisualizerProject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_widgets.cpp">
@@ -105,17 +105,17 @@
     <ClCompile Include="shaderClass.cpp">
       <Filter>Source Files\GPU</Filter>
     </ClCompile>
-    <ClCompile Include="EBO.cpp">
-      <Filter>Source Files\GPU</Filter>
+    <ClCompile Include="stl.cpp">
+      <Filter>Source Files\STL</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Source Files\STL</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="imgui\imgui.h">
       <Filter>Header Files\imgui</Filter>
     </ClInclude>
@@ -176,8 +176,14 @@
     <ClInclude Include="shaderClass.h">
       <Filter>Header Files\GPU</Filter>
     </ClInclude>
-    <ClInclude Include="EBO.h">
-      <Filter>Header Files\GPU</Filter>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="stl.h">
+      <Filter>Header Files\STL</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Header Files\STL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

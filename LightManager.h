@@ -8,11 +8,9 @@
 #define LIGHT_TYPE_DIRECTIONAL	1
 #define LIGHT_TYPE_SPOT			2
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+
 #include <vector>
+#include <glm/glm.hpp>
 #include "UBO.h"
 #include "shaderClass.h"
 
@@ -33,10 +31,11 @@ struct GpuLightsData {
 
 
 class LightManager {
-protected:
+private:
 	std::vector<Light> lights;
 	UBO lightUBO;
 	GLuint lightsEnabledUniformLocation;
+	bool isLightsEnabled = false;
 
 public:
 	LightManager(Shader& shaderProgram, std::vector<Light>& lights);
@@ -47,6 +46,7 @@ public:
 	void updateLightBuffer();
 	void disableLights();
 	void enableLights();
+	bool getLightsEnabled();
 };
 
 

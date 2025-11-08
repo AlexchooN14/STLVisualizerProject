@@ -11,13 +11,13 @@ class OptionsWindow : public ImGuiWindowBase {
 private:
 	GLint objectColorUniform;
 	ImVec4 objectColor;
-	//float hue = 0.0f;
 	bool transparencyEnabled = false;
 	bool wireframeEnabled = false;
 
 public:
 	OptionsWindow(std::string name, GLint objectColorUniform, int width, int height, float positionX, float positionY);
-	void Draw() override;
+
+	void draw(Scene* scene) override;
 	bool isTransparencyEnabled();
 	bool isWireframeEnabled();
 };

@@ -5,15 +5,17 @@
 
 
 class Vertex {
-public:
-
+private:
 	glm::vec3 position;
 	glm::vec3 normal;
 	//glm::vec3 color;
 	//glm::vec2 texUV;
 
+public:
 	Vertex(glm::vec3 position, glm::vec3 normal);
 	Vertex(float vertex[3], float normalVector[3]);
+
+	glm::vec3 getPosition();
 };
 
 #endif // !VERTEX_H

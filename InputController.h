@@ -26,8 +26,8 @@ private:
 
 public:
     InputController(GLFWwindow* window, Drawable& drawable);
-    void Update();
-};
 
+    void update();
+};
 
 #endif // !INPUT_CONTROLLER_H

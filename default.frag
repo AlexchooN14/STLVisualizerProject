@@ -108,7 +108,7 @@ void main()
 		}
 
 		// Ambient occlusion based on view angle
-		float ao = pow(dot(normalize(Normal), normalize(camPos - currPos)), lightsEnabled && objectColor.w < 1.0 ? 0.3 : 0.8);
+		float ao = pow(dot(normalize(Normal), normalize(camPos - currPos)), (objectColor.w < 1.0) ? 0.3 : 0.8);
 
 		// Clamp so no total black areas
 		ao = clamp(ao, 0.3, 1.0);
