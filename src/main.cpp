@@ -13,6 +13,8 @@
 #include "OptionsWindow.h"
 #include "LightManager.h"
 #include "Scene.h"
+#include <windows.h>
+#include <filesystem>
 
 
 GLFWwindow* window;
@@ -20,17 +22,25 @@ ImGuiIO io;
 
 
 void initApplication();
+std::string getExecutableDir();
 
-
-int main() 
+int main(int argc, char* argv[])
 {
 	initApplication();
 
-	StlFile stl = StlFile("stl_file.STL");
+	std::string baseDir = getExecutableDir();
+
+	std::string vertexShaderPath = baseDir + "/assets/shaders/default.vert";
+	std::string fragmentShaderPath = baseDir + "/assets/shaders/default.frag";
+	std::string exampleSTLPath = baseDir + "/assets/examples/stl_file.STL";
+	std::string iconPath = baseDir + "/assets/icons/icon.ico";
+
+
+	StlFile stl = StlFile((argc > 1) ? argv[1] : exampleSTLPath);
 	std::vector<Vertex> verticesVector = stl.verticesConvertVertexArray();
 	
 	Mesh objectMesh(verticesVector);
-	Shader shaderProgram("default.vert", "default.frag");
+	Shader shaderProgram(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
 
 	// What will be drawn, where and how
 	Scene scene = Scene(objectMesh, window, shaderProgram);
@@ -112,4 +122,10 @@ void initApplication() {
 
 	// To enable transparency
 	glEnable(GL_DEPTH_TEST);
+}
+
+std::string getExecutableDir() {
+	char buffer[MAX_PATH];
+	GetModuleFileNameA(NULL, buffer, MAX_PATH);
+	return std::filesystem::path(buffer).parent_path().string();
 }
