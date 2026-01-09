@@ -22,10 +22,3 @@ void ImGuiWindowBase::endFrame() {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
-
-// Should be called at the end of the program
-void ImGuiWindowBase::destroy() {
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
-}

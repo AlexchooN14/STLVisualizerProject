@@ -17,7 +17,6 @@ public:
 	void update(const void* data, GLsizeiptr size, GLintptr offset);
 
 	~UBO();
-
 };
 
 #endif // !UBO_H

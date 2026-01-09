@@ -8,12 +8,12 @@ UBO::UBO(GLsizeiptr size, GLuint bindingPoint) {
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
-UBO::~UBO() {
-	glDeleteBuffers(1, &this->ID);
-}
-
 void UBO::update(const void* data, GLsizeiptr size, GLintptr offset=0) {
 	glBindBuffer(GL_UNIFORM_BUFFER, this->ID);
 	glBufferSubData(GL_UNIFORM_BUFFER, offset, size, data);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+UBO::~UBO() {
+	glDeleteBuffers(1, &this->ID);
 }

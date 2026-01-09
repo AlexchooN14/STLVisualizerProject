@@ -16,7 +16,8 @@ public:
 	void linkAttribute(VBO& VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset);
 	void bind();
 	void unbind();
-	void destroy();
+	
+	~VAO();
 };
 
 #endif // !VAO_CLASS_H

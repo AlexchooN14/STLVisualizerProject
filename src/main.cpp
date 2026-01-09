@@ -1,81 +1,97 @@
-#include <iostream>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#include "main.h"
 
-#include "shaderClass.h"
-#include "Mesh.h"
-#include "stl.h"
-#include "Drawable.h"
-#include "InputController.h"
-#include "OptionsWindow.h"
-#include "LightManager.h"
-#include "Scene.h"
-#include <windows.h>
-#include <filesystem>
-
-
-GLFWwindow* window;
-ImGuiIO io;
-
-
-void initApplication();
-std::string getExecutableDir();
 
 int main(int argc, char* argv[])
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	initApplication();
 
 	std::string baseDir = getExecutableDir();
 
 	std::string vertexShaderPath = baseDir + "/assets/shaders/default.vert";
 	std::string fragmentShaderPath = baseDir + "/assets/shaders/default.frag";
-	std::string exampleSTLPath = baseDir + "/assets/examples/stl_file.STL";
-	std::string iconPath = baseDir + "/assets/icons/icon.ico";
+	std::string stlPath;
 
+	Scene* scene = nullptr;
+	Mesh* objectMesh = nullptr;
+	Shader* shaderProgram = nullptr;
+	std::vector<Vertex> verticesVector;
 
-	StlFile stl = StlFile((argc > 1) ? argv[1] : exampleSTLPath);
-	std::vector<Vertex> verticesVector = stl.verticesConvertVertexArray();
-	
-	Mesh objectMesh(verticesVector);
-	Shader shaderProgram(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
-
-	// What will be drawn, where and how
-	Scene scene = Scene(objectMesh, window, shaderProgram);
-
-	OptionsWindow optionsWindow("Options Chooser", glGetUniformLocation(shaderProgram.ID, "objectColor"), 300, 400, 10.0f, 10.0f);
-	// Let the scene handle the gui window
-	scene.addGuiWindow(&optionsWindow);
-	scene.activate();
-
+	StartupWindow startupWindow("Select STL File", 500, 250);
+	OptionsWindow* optionsWindow = nullptr;
 
 	// WHILE LOOP
-	while (!glfwWindowShouldClose(window))
+	while (!glfwWindowShouldClose(window) && appState != AppState::Exit)
 	{
+		// Take care of all GLFW events
+		glfwPollEvents();
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-
 		// Clean the back buffer and assign the new color to it
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		switch (appState) {
+			case AppState::Startup:
+			{
+				if (argc < 2) {
+					startupWindow.draw();
+					if (!startupWindow.getFilePath().empty()) {
+						stlPath = startupWindow.getFilePath();
+						appState = AppState::Loading;
+					}
+				}
+				else {
+					stlPath = argv[1];
+					appState = AppState::Loading;
+				}
+				break;
+			}
 
-		if (!io.WantCaptureMouse) {
-			scene.handleInput();
+			case AppState::Loading:
+			{
+				StlFile stl(stlPath);
+				verticesVector = stl.verticesConvertVertexArray();
+
+				objectMesh = new Mesh(verticesVector);
+				shaderProgram = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
+
+				// What will be drawn, where and how
+				scene = new Scene(*objectMesh, window, *shaderProgram, monitorWidth, monitorHeight);
+
+				optionsWindow = new OptionsWindow("Options Chooser", &scene->lightManager, 
+					glGetUniformLocation(shaderProgram->ID, "objectColor"), 300, 400, 10.0f, 10.0f);
+				// Let the scene handle the gui window
+				scene->addGuiWindow(optionsWindow);
+				scene->activate();
+
+				appState = AppState::Main;
+				break;
+			}
+
+			case AppState::Main:
+			{
+				if (!io.WantCaptureMouse) {
+					scene->handleInput();
+				}
+
+				scene->draw();
+
+				break;
+			}
 		}
-
-		scene.draw();
 
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
-		// Take care of all GLFW events
-		glfwPollEvents();
 	}
 
-	scene.destroy();
-	shaderProgram.destroy();
+	if (scene) delete scene;
+	if (optionsWindow) delete optionsWindow;
+	if (shaderProgram) delete shaderProgram;
+	if (objectMesh) delete objectMesh;
 	glfwDestroyWindow(window);
 	glfwTerminate();
+
 	return 0;
 }
 
@@ -95,13 +111,18 @@ void initApplication() {
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 	ImGui::StyleColorsDark();
 
-	window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "STL_Previewer", glfwGetPrimaryMonitor(), NULL);
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	monitorWidth = mode->width;
+	monitorHeight = mode->height;
+	window = glfwCreateWindow(monitorWidth, monitorHeight, "STL_Previewer", NULL, NULL);
 	// Error check if the window fails to create
 	if (window == NULL) {
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		exit(-1);
 	}
+
+	glfwMaximizeWindow(window);
 
 	// Introduce the window into the current context
 	glfwMakeContextCurrent(window);
@@ -118,7 +139,7 @@ void initApplication() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Specify the viewport of OpenGL in the Window
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glViewport(0, 0, monitorWidth, monitorHeight);
 
 	// To enable transparency
 	glEnable(GL_DEPTH_TEST);

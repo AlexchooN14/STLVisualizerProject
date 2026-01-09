@@ -5,6 +5,17 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(EXECUTABLE_NAME "STLViewer")
 
+if(WIN32)
+    message(STATUS "Building under Windows")
+    add_definitions(-DPLATFORM_WINDOWS)
+elseif(APPLE)
+    message(STATUS "Building under macOS")
+    add_definitions(-DPLATFORM_MAC)
+elseif(UNIX)
+    message(STATUS "Building under Linux")
+    add_definitions(-DPLATFORM_LINUX)
+endif()
+
 file(GLOB_RECURSE SRC
     src/*.cpp
     vendor/imgui/*.cpp
@@ -17,7 +28,7 @@ file(GLOB_RECURSE HDR
     vendor/include/glad/*.h
 )
 
-add_executable(${EXECUTABLE_NAME} ${SRC} ${HDR})
+add_executable(${EXECUTABLE_NAME} ${SRC} "src/main.h")
 
 target_include_directories(${EXECUTABLE_NAME} PRIVATE
     src
@@ -37,6 +48,8 @@ target_link_libraries(${EXECUTABLE_NAME} PRIVATE
     opengl32
     gdi32
     user32
+    shell32
+    comdlg32
     shell32
 )
 

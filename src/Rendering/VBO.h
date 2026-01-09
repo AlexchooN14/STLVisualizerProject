@@ -11,12 +11,13 @@ class VBO {
 public:
 	// Reference ID of the Vertex Buffer Object
 	GLuint ID;
-	// Constructor that generates a Vertex Buffer Object and links it to vertices
+	// Generates a Vertex Buffer Object and links it to vertices
 	VBO(std::vector<Vertex>& vertices);
 
 	void bind();
 	void unbind();
-	void destroy();
+
+	~VBO();
 };
 
-#endif
+#endif // !VBO_CLASS_H

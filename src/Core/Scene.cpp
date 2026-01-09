@@ -2,8 +2,8 @@
 #include "ImGuiWindowBase.h"
 
 
-Scene::Scene(Mesh& mesh, GLFWwindow* window, Shader& shader) :
-	drawable(mesh), inputController(window, drawable), shader(shader), lightManager(shader), camera(glm::vec3(0.0f, 0.0f, 2.0f), SCREEN_WIDTH, SCREEN_HEIGHT) {
+Scene::Scene(Mesh& mesh, GLFWwindow* window, Shader& shader, int monitorWidth, int monitorHeight) :
+	drawable(mesh), inputController(window, drawable), shader(shader), lightManager(shader), camera(glm::vec3(0.0f, 0.0f, 2.0f), monitorWidth, monitorHeight) {
 
 	this->camera.updateMatrix(45.0f, 0.1f, 100.0f);
 }
@@ -35,7 +35,7 @@ void Scene::addGuiWindow(ImGuiWindowBase* window) {
 // Function to be called every frame to draw the scene
 void Scene::draw() {
 	for (ImGuiWindowBase* window : this->guiWindows) {
-		window->draw(this);
+		window->draw();
 	}
 
 	this->drawable.draw(this->shader, this->camera);
@@ -47,9 +47,9 @@ void Scene::handleInput() {
 }
 
 void Scene::destroy() {
-	for (ImGuiWindowBase* window : this->guiWindows) {
-		window->destroy();
-	}
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 }
 
 void Scene::defaultLighting() {

@@ -27,10 +27,7 @@ public:
 	
 	ImGuiWindowBase(std::string name, int width, int height, float positionX, float positionY);
 	
-	virtual void draw(Scene* scene) = 0;
-
-	// Should be called at the end of the program
-	void destroy();
+	virtual void draw() = 0;
 };
 
 #endif // !IMGUI_WINDOW_BASE_H

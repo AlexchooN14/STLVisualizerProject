@@ -1,16 +1,14 @@
 #include "OptionsWindow.h"
-#include "ImGuiWindowBase.h"
-#include "glad/glad.h"
 #include <iostream>
-#include "Scene.h"
 
 
-OptionsWindow::OptionsWindow(std::string name, GLint objectColorUniform, int width, int height, float positionX, float positionY) :
-	ImGuiWindowBase(name, width, height, positionX, positionY) {
+OptionsWindow::OptionsWindow(std::string name, LightManager* lightManager, GLint objectColorUniform, int width, int height,
+	float positionX, float positionY) : ImGuiWindowBase(name, width, height, positionX, positionY) {
 
 	this->objectColorUniform = objectColorUniform;
 	this->objectColor = ImVec4((69.0f / 255.0f), (161.0f / 255.0f), (204.0f / 255.0f), 1.0f);
 	this->flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize;
+	this->lightManager = lightManager;
 }
 
 bool OptionsWindow::isTransparencyEnabled() {
@@ -21,7 +19,7 @@ bool OptionsWindow::isWireframeEnabled() {
 	return this->wireframeEnabled;
 }
 
-void OptionsWindow::draw(Scene* scene) {
+void OptionsWindow::draw() {
 	// Obligatory call
 	this->beginFrame();
 
@@ -63,14 +61,14 @@ void OptionsWindow::draw(Scene* scene) {
 	if (this->wireframeEnabled) {
 		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered));
 		// Disable lights when in wireframe mode so we can see the wireframe better
-		if (scene->lightManager.getLightsEnabled()) {
-			scene->lightManager.disableLights();
+		if (this->lightManager->getLightsEnabled()) {
+			this->lightManager->disableLights();
 		}
 	}
 	else {
 		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Button));
-		if (!scene->lightManager.getLightsEnabled()) {
-			scene->lightManager.enableLights();
+		if (!this->lightManager->getLightsEnabled()) {
+			this->lightManager->enableLights();
 		}
 	}
 	if (ImGui::Button("Wireframe", ImVec2(ImGui::GetContentRegionAvail().x, 30))) {

@@ -7,8 +7,6 @@
 #include "LightManager.h"
 #include <vector>
 
-#define SCREEN_WIDTH 1920
-#define SCREEN_HEIGHT 1080
 
 class ImGuiWindowBase;
 
@@ -22,8 +20,7 @@ public:
 	Camera camera;
 	std::vector<ImGuiWindowBase*> guiWindows;
 
-
-	Scene(Mesh& mesh, GLFWwindow* window, Shader& shader);
+	Scene(Mesh& mesh, GLFWwindow* window, Shader& shader, int monitorWidth, int monitorHeight);
 	Scene(Mesh& mesh, GLFWwindow* window, Shader& shader, Camera& camera);
 
 	void activate();
