@@ -1,0 +1,127 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.5 Chrome/138.0.7204.251 Electron/37.6.1 Safari/537.36" version="28.2.5">
+  <diagram name="Page-1" id="pVzkfIQOvhZVQrp17-77">
+    <mxGraphModel dx="1297" dy="2300" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-27" value="" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;arcSize=2;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="160" y="130" width="880" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-3" value="Camera" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="200" y="560" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-81" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-4" target="en-_3ll_Jfm4MOAWiUVA-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-82" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-4" target="en-_3ll_Jfm4MOAWiUVA-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-83" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-4" target="en-_3ll_Jfm4MOAWiUVA-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-4" value="Drawable" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="480" y="560" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-80" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-5" target="en-_3ll_Jfm4MOAWiUVA-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-5" value="LightManager" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="200" y="660" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-7" target="en-_3ll_Jfm4MOAWiUVA-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-7" target="en-_3ll_Jfm4MOAWiUVA-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-78" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-7" target="en-_3ll_Jfm4MOAWiUVA-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-7" value="Scene" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="200" y="440" width="800" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-9" value="InputController" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="760" y="560" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-73" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-10" target="en-_3ll_Jfm4MOAWiUVA-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-10" value="Shader" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="760" y="340" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-11" value="UBO" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="200" y="760" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-12" value="VAO" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="480" y="660" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-13" value="VBO" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="760" y="660" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-71" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-18" target="en-_3ll_Jfm4MOAWiUVA-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-18" value="OptionsWindow" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="200" y="340" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-20" target="en-_3ll_Jfm4MOAWiUVA-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-20" value="Vertex Shader" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="760" y="160" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-21" target="en-_3ll_Jfm4MOAWiUVA-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-21" value="Fragment Shader" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="760" y="250" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-45" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-22" target="en-_3ll_Jfm4MOAWiUVA-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-22" value="User" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="400" y="-80" width="400" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-23" target="en-_3ll_Jfm4MOAWiUVA-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-23" value="STL File" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="460" y="50" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-38" target="en-_3ll_Jfm4MOAWiUVA-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-38" value="Vertex" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="480" y="160" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-40" target="en-_3ll_Jfm4MOAWiUVA-46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-40" value="STL Class" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="480" y="250" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-46" target="en-_3ll_Jfm4MOAWiUVA-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-46" value="Mesh" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="480" y="340" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-57" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=15;fontColor=default;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-56" target="en-_3ll_Jfm4MOAWiUVA-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-56" value="ImGuiWindowBase" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="200" y="160" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="en-_3ll_Jfm4MOAWiUVA-79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.325;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Helvetica;fontSize=15;fontColor=default;exitX=0.5;exitY=0;exitDx=0;exitDy=0;endArrow=none;endFill=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="en-_3ll_Jfm4MOAWiUVA-5" target="en-_3ll_Jfm4MOAWiUVA-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="660" />
+              <mxPoint x="320" y="640" />
+              <mxPoint x="460" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
